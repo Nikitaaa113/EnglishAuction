@@ -9,7 +9,7 @@ package englishauction;
  * @author sutdi
  */
 public class Product {
-    
+
     //Постоянные параметры
     private int lot; //Номер лота 
     private String name; //Название
@@ -18,32 +18,17 @@ public class Product {
     private int rarety; //Редкость (0:10)
     private int antiquarity; //Антикварность  (0:10)
     private int state; //Состояние (0:10)
-    
+
     //Изменчивые параметры
-    
-    private int price_acceptability; //Приемлимость цены (0:10)
-     //price_acceptability=(welfare*10+price_accept*10+welfare*3)/23;
-   
-    private int price_difference; //Разность цен (-1:1)
-     //price_acceptability=(price(i-1)-estimated_price)/estimated_price
-    // -1 если отрицательная ; 0 если не изменилась ; 1 если положительная
-    
-    
-   
-    private int d_estimated_price; // Решение предполагаемой цены (0:10)
-    //d_estimated_price=(rarety+antiquarity+state)/3;
-    
-    
-    private int estimated_price; //Предполагаемая цена
-    // estimated_price=d_estimated_price*price+price;
-    
+    private double price_difference; //Разность цен (-5:5)
+    private double d_estimated_price; // Решение предполагаемой цены (0:10)
+    private double estimated_price; //Предполагаемая цена
+
     public Product() {
-    
-    } 
-    
-    
-    
-    public Product(int lot,String name, int year, int price, int rarety, int antiquarity, int state) {
+
+    }
+
+    public Product(int lot, String name, int year, int price, int rarety, int antiquarity, int state) {
         this.lot = lot;
         this.name = name;
         this.year = year;
@@ -52,48 +37,110 @@ public class Product {
         this.antiquarity = antiquarity;
         this.state = state;
     }
-    
+
+    //Постоянные параметры 
     public String getName() {
         return this.name;
     }
+
     public int getYear() {
         return this.year;
     }
+
     public int getLot() {
         return this.lot;
     }
+
     public int getPrice() {
         return this.price;
     }
+
     public int getRarety() {
         return this.rarety;
     }
+
     public int getAntiquarity() {
         return this.antiquarity;
     }
+
     public int getState() {
         return this.state;
     }
+
     public void setName(String name) {
-        this.name=name;
+        this.name = name;
     }
+
     public void setYear(int year) {
-        this.year=year;
+        this.year = year;
     }
+
     public void setLot(int lot) {
-        this.lot=lot;
+        this.lot = lot;
     }
+
     public void setPrice(int price) {
-        this.price=price;
+        this.price = price;
     }
+
     public void setRarety(int rarety) {
-        this.rarety=rarety;
+        this.rarety = rarety;
     }
+
     public void setAntuquarity(int antiquarity) {
-        this.antiquarity=antiquarity;
+        this.antiquarity = antiquarity;
     }
+
     public void setState(int state) {
-        this.state=state;
+        this.state = state;
     }
-    
+
+    // Изменчивые параметры
+    public double getD_estimated_price() {
+        return this.d_estimated_price;
+    }
+
+    public double getEstimated_price() {
+        return this.estimated_price;
+    }
+
+    public double getPrice_difference() {
+        return this.price_difference;
+    }
+
+    public void setD_estimated_price(int d_estimated_price) {
+        this.d_estimated_price = d_estimated_price;
+    }
+
+    public void setEstimated_price(double estimated_price) {
+        this.estimated_price = d_estimated_price;
+    }
+
+    public void setPrice_difference(double price_difference) {
+        this.price_difference = price_difference;
+
+    }
+
+    public void setD_estimated_price(double d_estimated_price) {
+        this.d_estimated_price = d_estimated_price;
+
+    }
+
+    public void CalculateD_estimated_price() {
+        this.d_estimated_price = this.rarety * 0.5 + this.state * 0.3 + this.antiquarity * 0.2;
+    }
+
+    public void CalculateEstimated_price() {
+        this.estimated_price = this.d_estimated_price * this.price + this.price;
+    }
+
+    public void CalculatePrice_difference() {
+        this.price_difference = (this.price - this.estimated_price) / this.estimated_price;
+        if (this.price_difference < 0) {
+            this.price_difference = -5;
+        }
+        if (this.price_difference > 0) {
+            this.price_difference = 5;
+        }
+    }
 }

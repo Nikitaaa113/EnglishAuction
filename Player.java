@@ -11,73 +11,47 @@ import java.util.LinkedHashMap;
  * @author sutdi
  */
 public class Player {
-    
+
     //Постоянные параметры
-    
     private String name; //Имя
     private int type; //Тип игрока (0:1)
     private int welfare; //Благосостояние (0:10)
     private int avarice; //Скупость (0:10)
     private int risk; //Склонность к риску (0:10)
     private int overconfidence; //Самоуверенность (0:10)
-    private LinkedHashMap<Integer, Integer> necessity; //Необходимость в товаре (0:10)
-    
+    private double necessity; //Необходимость в товаре (0:10)
+    private int activity; // Активность игрока
+
     //Изменчивые параметры
-    
-    private int fear_of_poverty; //Страх бедности
-    //fear_of_poverty=fear_of_poverty(i-1)+d_fear_of_poverty;
-    
-    private int d_fear_of_poverty; // Приращение страха бедности  (-1:1)???
-    // d_fear_of_poverty=(avarice+price_acceptability+welfare)/3
-    
-    private int lack_of_confidence; //Неуверенность в товаре
-    // lack_of_confidence=lack_of_confidence(i-1)+d_lack_of_confidence    
-    
-    private int d_lack_of_confidence;  //Приращение неуверенности в товаре (-1:1)???
-    // d_lack_of_confidence=price_acceptability*10+antiquarity*10+type*2+rarety*10)/32;
-    
-    
-    private int self_confidence; // Уверенность в себе
-    // self_confidence= self_confidence(i-1)+d_self_confidence;
-    
-    private int d_self_confidence; // Приращение уверенности в тебе (-1;1)???
-    // d_self_confidence= (welfate+overconfidence+Активность????+growth+price_difference)/5;
-    
-    
-    private int passion; //Азарт
-    // passion=passion(i-1)+d_passion;
-    
-    private int d_passion; //Приращение азарта
-    // d_passion=(risk+growth+type+Активность???)/4;
-    
-    
+    private int count_bid_player; // Количество ставок игроков в n-ом раунде
+
+    private int fear_of_poverty; //Страх бедности (0:10)
+    private double price_acceptability; //Приемлимость цены (0:10)
+    private int lack_of_confidence; //Неуверенность в товаре(0:10)
+    private int self_confidence; // Уверенность в себе (0:10)
+    private int passion; //Азарт (0:10)
     private int fear_of_loss; //Страх потери
-    // fear_of_loss=fear_of_loss(i-1)+d_fear_of_loss;
-    
-    private int d_fear_of_loss; //Приращение страха потерию... (-1:1)
-    // d_fear_of_loss=(necessity+overconfidence+Активнотьс(0;1)???+growth+type)/5
-    
-    
-    private int activity; //Активность игрока.  Тут он решает будет ли участвовать в аукционе или нет
-    //Формула: fear_of_poverty+lack_of_confidence_in_the_product+lack_of_confidence-passion-necessity+price_acceptability-1
-    
-    
-    
+    private double activity_in_game; // Решение играть
+
+    // Приращения
+    private int d_fear_of_poverty; // Приращение страха бедности (-1;1)
+    private int d_lack_of_confidence;  //Приращение неуверенности в товаре (-1:1)
+    private int d_self_confidence; // Приращение уверенности в себе (-1;1)
+    private int d_passion; //Приращение азарта (-1;1)
+    private int d_fear_of_loss; //Приращение страха потери. (-1;1);
 
     public Player() {
 
     }
 
-    public Player(String name, int type, int welfare, int avarice, int risk, int overconfidence) {
+    public Player(String name, int type, int welfare, int avarice, int risk, int overconfidence, int activity) {
         this.name = name;
         this.type = type;
         this.welfare = welfare;
         this.avarice = avarice;
         this.risk = risk;
         this.overconfidence = overconfidence;
-    }
-    public Player(LinkedHashMap<Integer, Integer> necessity) {
-        this.necessity=necessity;
+        this.activity=activity;
     }
 
     public String getName() {
@@ -100,19 +74,29 @@ public class Player {
         return this.risk;
     }
 
+    public double getNecessity(double necessity) {
+        return this.necessity;
+    }
+
     public int getOverconfidence() {
         return this.overconfidence;
     }
 
-    public LinkedHashMap<Integer,Integer> getNecessity() {
-    return this.necessity;
-} 
+    public int getActivity() {
+        return this.activity;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
     public void setType(int type) {
-        this.type = type;
+        if (this.type == 1) {
+            this.type = 10;
+        }
+        if (this.type == 0) {
+            this.type = 5;
+        }
     }
 
     public void setAvarice(int avarice) {
@@ -123,15 +107,190 @@ public class Player {
         this.risk = risk;
     }
 
+    public void setActivity(int activity) {
+        if (this.activity == 1) {
+            this.activity = 10;
+        } 
+        else {    
+            this.activity = 0;
+        }
+    }
+
     public void setOverconfidence(int overconfidence) {
         this.overconfidence = overconfidence;
     }
 
-    public void setNecessity(LinkedHashMap<Integer, Integer> necessity) {
+    public void setNecessity(double necessity) {
         this.necessity = necessity;
     }
+
+    //Переменные параметры и приращения
+    public double getPrice_acceptability() {
+        return this.price_acceptability;
+    }
+
+    public int getD_Fear_of_poverty() {
+        return this.d_fear_of_poverty;
+    }
+
+    public int getFear_of_poverty() {
+        return this.fear_of_poverty;
+    }
+
+    public int getD_lack_of_confidence() {
+        return this.d_lack_of_confidence;
+    }
+
+    public int getLack_of_confidence() {
+        return this.d_lack_of_confidence;
+    }
+    
+    public int getD_self_confidence() {
+        return this.d_self_confidence;
+    }
+    
+    public int getSelf_confidence() {
+        return this.self_confidence;
+    }
+    
+    public int getD_fear_of_loss() {
+        return this.d_fear_of_loss;
+    }
+    
+    public int getFear_of_loss() {
+        return this.fear_of_loss;
+    }
+    
+    public int getD_passion() {
+        return this.d_passion;
+    }
+    
+    public int getPassion() {
+        return this.passion;
+    }
+    
+    public double getActivity_in_game() {
+        return this.activity_in_game;
+    }
+
+    public void setD_fear_of_poverty(int d_fear_of_poverty) {
+        this.d_fear_of_poverty = d_fear_of_poverty;
+    }
+
+    public void setFear_of_poverty(int fear_of_poverty) {
+        this.fear_of_poverty = fear_of_poverty;
+    }
+
+    public void setD_lack_of_confidence(int d_lack_of_confidence) {
+        this.d_lack_of_confidence = d_lack_of_confidence;
+    }
+
+    public void setLack_of_confidence(int lack_of_confidence) {
+        this.lack_of_confidence = lack_of_confidence;
+    }
+
+    public void setD_self_confidence(int d_self_confidence) {
+        this.d_self_confidence = d_self_confidence;
+    }
+
+    public void setSelf_confidence(int self_confidence) {
+        this.self_confidence = self_confidence;
+    }
+
+    public void setD_passion(int d_passion) {
+        this.d_passion = d_passion;
+    }
+
+    public void setPassion(int passion) {
+        this.passion = passion;
+    }
+
+    public void setD_fear_of_loss(int d_fear_of_loss) {
+        this.d_fear_of_loss = d_fear_of_loss;
+    }
+
+    public void setFear_of_loss(int fear_of_loss) {
+        this.fear_of_loss = fear_of_loss;
+    }
+
+    public void setActivity_in_game(double activity_in_game) {
+        this.activity_in_game = activity_in_game;
+    }
+
+    // Методы расчёта
+    public void CalculateD_fear_of_poverty(Product prod) {
+        this.d_fear_of_poverty = (int) (this.welfare * 0.4 + this.price_acceptability * 0.4 + this.avarice * 0.2);
+        if (this.d_fear_of_poverty < 3) {
+            this.d_fear_of_poverty = -1;
+        } else {
+            this.d_fear_of_poverty = 1;
+        }
+
+    }
+
+    public void CalculateFear_of_poverty() {
+        this.fear_of_poverty = this.fear_of_poverty + this.d_fear_of_poverty;
+    }
+
+    public void CalculateD_lack_of_confidence(Product prod) {
+        this.d_lack_of_confidence = (int) (this.price_acceptability * 0.4 + prod.getAntiquarity() * 0.2 + this.type * 0.05 + prod.getRarety() * 0.35);
+        if (this.d_lack_of_confidence < 4) {
+            this.d_lack_of_confidence = -1;
+        } else {
+            this.d_lack_of_confidence = 1;
+        }
+    }
+
+    public void CalculateLack_of_confidence() {
+        this.lack_of_confidence = this.lack_of_confidence + this.d_lack_of_confidence;
+    }
+
+    public void CalculateD_self_confidence(Product prod, EffectsAuction auc) {
+        this.d_self_confidence = (int) (this.welfare * 0.4 + this.overconfidence * 0.3 + this.activity * 0.15 + auc.getGrowth() * +prod.getPrice_difference() * 0.05);
+        if (this.d_self_confidence < 5) {
+            this.d_self_confidence = -1;
+        } else {
+            this.d_self_confidence = 1;
+        }
+    }
+
+    public void CalculateSelf_confidence() {
+        this.self_confidence = this.self_confidence + this.d_self_confidence;
+    }
+
+    public void CalculateD_passion(EffectsAuction auc) {
+        this.d_passion = (int) (this.risk * 0.5 + auc.getGrowth() * 0.2 + this.type * 0.15 + this.activity * 0.15);
+        if (this.d_passion <= 3) {
+            this.d_passion = -1;
+        } else {
+            this.d_passion = 1;
+        }
+    }
+
+    public void CalculatePassion() {
+        this.passion = this.passion + this.d_passion;
+    }
+
+    public void CalculateD_fear_of_loss(EffectsAuction auc) {
+        this.d_fear_of_loss = (int) (this.necessity * 0.5 + this.overconfidence * 0.25 + this.activity * 0.1 + auc.getGrowth() * 0.1 + this.type * 0.05);
+        if (this.d_fear_of_loss <= 1) {
+            this.d_fear_of_loss = -1;
+        }
+        else{
+            this.d_fear_of_loss = 1;
+        }
+    }
+
+    public void CalculateFear_of_loss() {
+        this.fear_of_loss = this.fear_of_loss + this.d_fear_of_loss;
+    }
+
+    public void CalculateActivity_in_game(Product prod) {
+        this.activity_in_game = this.fear_of_poverty + this.lack_of_confidence + this.self_confidence - this.passion - this.necessity + prod.getPrice_difference() - this.fear_of_loss;
+    }
+
+    public void CalculatePrice_acceptability(Product prod) {
+        this.price_acceptability = (this.welfare * 0.5 + prod.getState() * 0.35 + prod.getPrice_difference() * 0.15);
+
+    }
 }
-
-
-
-
