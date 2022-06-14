@@ -136,10 +136,10 @@ public class Product {
 
     public void CalculatePrice_difference() {
         this.price_difference = (this.price - this.estimated_price) / this.estimated_price;
-        if (this.price_difference < 0) {
+        if (this.price_difference >0) {
             this.price_difference = -5;
         }
-        if (this.price_difference > 0) {
+        if (this.price_difference < 0) {
             this.price_difference = 5;
         }
     }

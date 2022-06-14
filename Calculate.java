@@ -13,6 +13,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author sutdi
  */
-public class Calculate  {
-  
+public class Calculate {
+
 }

@@ -26,7 +26,7 @@ public class EffectsAuction {
 
     public void CalculateGrowth(Product prod) {
         this.growth = (0 - prod.getPrice()) / prod.getPrice();
-        if (this.growth <0) {
+        if (this.growth < 0) {
             this.growth = -5;
         } else {
             this.growth = 5;

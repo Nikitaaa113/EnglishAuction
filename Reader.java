@@ -45,7 +45,7 @@ public class Reader {
             XSSFSheet necessity_for_player = book.getSheetAt(5);
 
             for (int i = 1; i <= player.getLastRowNum(); i++) {
-                this.listPlayer.add(new Player(player.getRow(i).getCell(0).getStringCellValue(), (int) player.getRow(i).getCell(1).getNumericCellValue(), (int) player.getRow(i).getCell(2).getNumericCellValue(), (int) player.getRow(i).getCell(3).getNumericCellValue(), (int) player.getRow(i).getCell(4).getNumericCellValue(), (int) player.getRow(i).getCell(5).getNumericCellValue(),(int) (player.getRow(i).getCell(6).getNumericCellValue())));
+                this.listPlayer.add(new Player(player.getRow(i).getCell(0).getStringCellValue(), (int) player.getRow(i).getCell(1).getNumericCellValue(), (int) player.getRow(i).getCell(2).getNumericCellValue(), (int) player.getRow(i).getCell(3).getNumericCellValue(), (int) player.getRow(i).getCell(4).getNumericCellValue(), (int) player.getRow(i).getCell(5).getNumericCellValue(), (int) (player.getRow(i).getCell(6).getNumericCellValue())));
             }
 
             for (int i = 1; i <= product.getLastRowNum(); i++) {
@@ -66,10 +66,10 @@ public class Reader {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                 array[i][j] = necessity_for_player.getRow(i).getCell(j).getNumericCellValue();
-              
+
             }
             this.array = array;
-                    }
+        }
         book.close();
     }
 }
