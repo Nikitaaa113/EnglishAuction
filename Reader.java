@@ -42,8 +42,6 @@ public class Reader {
             XSSFWorkbook book = new XSSFWorkbook("C:\\Users\\sutdi\\Downloads\\Курсач.xlsx");
             XSSFSheet player = book.getSheetAt(4);
             XSSFSheet product = book.getSheetAt(3);
-            XSSFSheet necessity_for_player = book.getSheetAt(5);
-
             for (int i = 1; i <= player.getLastRowNum(); i++) {
                 this.listPlayer.add(new Player(player.getRow(i).getCell(0).getStringCellValue(), (int) player.getRow(i).getCell(1).getNumericCellValue(), (int) player.getRow(i).getCell(2).getNumericCellValue(), (int) player.getRow(i).getCell(3).getNumericCellValue(), (int) player.getRow(i).getCell(4).getNumericCellValue(), (int) player.getRow(i).getCell(5).getNumericCellValue(), (int) (player.getRow(i).getCell(6).getNumericCellValue())));
             }
@@ -57,7 +55,6 @@ public class Reader {
         } catch (Exception e) {
         }
     }
-
     public void Necessity_calc() throws IOException {
         XSSFWorkbook book = new XSSFWorkbook("C:\\Users\\sutdi\\Downloads\\Курсач.xlsx");
         XSSFSheet necessity_for_player = book.getSheetAt(5);

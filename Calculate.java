@@ -57,14 +57,7 @@ public void calculate_max(ArrayList<Double> a,Product prod,double max) {
     prod.setCurrentPrice(max);       
 }
 
-//public void create_next_changeable_parameters(Reader r,int j,int i) {
- //       r.getArrayPlayer().get(j).setFear_of_poverty(r.getArrayPlayer().get(j).getD_Fear_of_poverty());
-   //     r.getArrayPlayer().get(j).setLack_of_confidence(0);////);
-    //r.getArrayPlayer().get(j).setSelf_confidence(0);
-    //r.getArrayPlayer().get(j).setFear_of_loss(0);
-    //r.getArrayPlayer().get(j).setPassion(0);
-   // r.getArrayPlayer().get(j).CalculatePrice_acceptability(r.getArrayProduct().get(i));
-    //r.getArrayPlayer().get(j).setNecessity(r.getArrayNecessity()[i][j]);
+
 
 }
         
