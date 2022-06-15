@@ -24,13 +24,11 @@ public class Player {
     private double price_increase; // Повышение цены
 
     //Изменчивые параметры
-    private int count_bid_player; // Количество ставок игроков в n-ом раунде
-
-    private int fear_of_poverty; //Страх бедности (0:10)
+    private int fear_of_poverty; //Страх бедности 
     private double price_acceptability; //Приемлимость цены (0:10)
-    private int lack_of_confidence; //Неуверенность в товаре(0:10)
-    private int self_confidence; // Уверенность в себе (0:10)
-    private int passion; //Азарт (0:10)
+    private int lack_of_confidence; //Неуверенность в товаре
+    private int self_confidence; // Уверенность в себе 
+    private int passion; //Азарт 
     private int fear_of_loss; //Страх потери
     private double activity_in_game; // Решение играть
 
@@ -39,7 +37,7 @@ public class Player {
     private int d_lack_of_confidence;  //Приращение неуверенности в товаре (-1:1)
     private int d_self_confidence; // Приращение уверенности в себе (-1;1)
     private int d_passion; //Приращение азарта (-1;1)
-    private int d_fear_of_loss; //Приращение страха потери. (-1;1);
+    private int d_fear_of_loss; //Приращение страха потери (-1;1)
 
     public Player() {
 
@@ -87,8 +85,6 @@ public class Player {
         return this.activity;
     }
 
-   
-    
     public void setName(String name) {
         this.name = name;
     }
@@ -125,8 +121,6 @@ public class Player {
     public void setNecessity(double necessity) {
         this.necessity = necessity;
     }
-    
-    
 
     //Переменные параметры и приращения
     public double getPrice_acceptability() {
@@ -176,8 +170,8 @@ public class Player {
     public double getActivity_in_game() {
         return this.activity_in_game;
     }
-    
-     public double getPrice_increase() {
+
+    public double getPrice_increase() {
         return this.price_increase;
     }
 
@@ -224,15 +218,15 @@ public class Player {
     public void setActivity_in_game(double activity_in_game) {
         this.activity_in_game = activity_in_game;
     }
-    
+
     public void setPrice_increase(double price_increase) {
-        this.price_increase=price_increase;
+        this.price_increase = price_increase;
     }
 
     // Методы расчёта
-    public void CalculateD_fear_of_poverty(Product prod) {
+    public void CalculateD_fear_of_poverty() {
         this.d_fear_of_poverty = (int) (-this.welfare * 0.4 - this.price_acceptability * 0.4 + this.avarice * 0.2);
-        if (this.d_fear_of_poverty <-2) {
+        if (this.d_fear_of_poverty < -2) {
             this.d_fear_of_poverty = -1;
         } else {
             this.d_fear_of_poverty = 1;
@@ -245,8 +239,8 @@ public class Player {
     }
 
     public void CalculateD_lack_of_confidence(Product prod) {
-        this.d_lack_of_confidence = (int) (-this.price_acceptability * 0.4 -prod.getAntiquarity() * 0.2 -this.type * 0.05 -prod.getRarety() * 0.35);
-        if (this.d_lack_of_confidence <-3) {
+        this.d_lack_of_confidence = (int) (-this.price_acceptability * 0.4 - prod.getAntiquarity() * 0.2 - this.type * 0.05 - prod.getRarety() * 0.35);
+        if (this.d_lack_of_confidence < -3) {
             this.d_lack_of_confidence = -1;
         } else {
             this.d_lack_of_confidence = 1;
@@ -255,12 +249,12 @@ public class Player {
 
     public void CalculateLack_of_confidence() {
         this.lack_of_confidence = this.lack_of_confidence + this.d_lack_of_confidence;
-        
+
     }
 
     public void CalculateD_self_confidence(Product prod, EffectsAuction auc) {
         this.d_self_confidence = (int) (this.welfare * 0.4 + this.overconfidence * 0.3 + this.activity * 0.15 - auc.getGrowth() * +prod.getPrice_difference() * 0.05);
-        if (this.d_self_confidence <4) {
+        if (this.d_self_confidence < 4) {
             this.d_self_confidence = -1;
         } else {
             this.d_self_confidence = 1;
@@ -273,7 +267,7 @@ public class Player {
 
     public void CalculateD_passion(EffectsAuction auc) {
         this.d_passion = (int) (this.risk * 0.4 - auc.getGrowth() * 0.4 + this.type * 0.1 + this.activity * 0.1);
-      if (this.d_passion <4) {
+        if (this.d_passion < 4) {
             this.d_passion = -1;
         } else {
             this.d_passion = 1;
@@ -285,8 +279,8 @@ public class Player {
     }
 
     public void CalculateD_fear_of_loss(EffectsAuction auc) {
-        this.d_fear_of_loss = (int) (-this.necessity * 0.3 -this.overconfidence * 0.2 -this.activity * 0.05 + auc.getGrowth() * 0.4 - this.type * 0.05);
-       if (this.d_fear_of_loss <-2) {
+        this.d_fear_of_loss = (int) (-this.necessity * 0.3 - this.overconfidence * 0.2 - this.activity * 0.05 + auc.getGrowth() * 0.4 - this.type * 0.05);
+        if (this.d_fear_of_loss < -2) {
             this.d_fear_of_loss = -1;
         } else {
             this.d_fear_of_loss = 1;
@@ -305,20 +299,11 @@ public class Player {
         this.price_acceptability = (this.welfare * 0.5 + prod.getState() * 0.35 + prod.getPrice_difference() * 0.15);
 
     }
-    
-    public void CalculatePrice_increase(Product prod) {
-        if(this.passion>0 & this.fear_of_loss>0) {
-           this.price_increase=prod.getPrice()+prod.getPrice()*0.12;   
-        }
-        if(this.passion<0 & this.fear_of_loss>0) {
-           this.price_increase=prod.getPrice()+prod.getPrice()*0.05;   
-        }
-        if(this.passion>0 & this.fear_of_loss<0) {
-           this.price_increase=prod.getPrice()+prod.getPrice()*0.15;   
-        }
-        if(this.passion<0 & this.fear_of_loss<0) {
-           this.price_increase=prod.getPrice()+prod.getPrice()*0.12;   
-        }
-        this.price_increase=prod.getPrice()+prod.getPrice()*(this.passion*0.4-this.fear_of_loss*0.4+this.necessity*0.2)/10;
+
+    public void CalculatePrice_increase_one(Product prod) {
+        this.price_increase = prod.getStartPrice() + prod.getStartPrice() * (this.passion * 0.4 - this.fear_of_loss * 0.4 + this.necessity * 0.2)/10;
+    }
+    public void CalculatePrice_increase_two(Product prod) {
+        this.price_increase = prod.getCurrentPrice() +prod.getCurrentPrice() * (this.passion * 0.4 - this.fear_of_loss * 0.4 + this.necessity * 0.2)/10;
     }
 }

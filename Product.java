@@ -14,7 +14,7 @@ public class Product {
     private int lot; //Номер лота 
     private String name; //Название
     private int year; //Год выпуска
-    private int price; //Цена 
+    private int start_price; //Цена 
     private int rarety; //Редкость (0:10)
     private int antiquarity; //Антикварность  (0:10)
     private int state; //Состояние (0:10)
@@ -23,16 +23,17 @@ public class Product {
     private double price_difference; //Разность цен (-5:5)
     private double d_estimated_price; // Решение предполагаемой цены (0:10)
     private double estimated_price; //Предполагаемая цена
+    private double current_price;
 
     public Product() {
 
     }
 
-    public Product(int lot, String name, int year, int price, int rarety, int antiquarity, int state) {
+    public Product(int lot, String name, int year, int start_price, int rarety, int antiquarity, int state) {
         this.lot = lot;
         this.name = name;
         this.year = year;
-        this.price = price;
+        this.start_price = start_price;
         this.rarety = rarety;
         this.antiquarity = antiquarity;
         this.state = state;
@@ -51,8 +52,8 @@ public class Product {
         return this.lot;
     }
 
-    public int getPrice() {
-        return this.price;
+    public int getStartPrice() {
+        return this.start_price;
     }
 
     public int getRarety() {
@@ -79,8 +80,8 @@ public class Product {
         this.lot = lot;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setStartPrice(int start_price) {
+        this.start_price = start_price;
     }
 
     public void setRarety(int rarety) {
@@ -108,6 +109,10 @@ public class Product {
         return this.price_difference;
     }
 
+    public double getCurrentPrice() {
+        return this.current_price;
+    }
+
     public void setD_estimated_price(int d_estimated_price) {
         this.d_estimated_price = d_estimated_price;
     }
@@ -131,16 +136,20 @@ public class Product {
     }
 
     public void CalculateEstimated_price() {
-        this.estimated_price = this.d_estimated_price * this.price + this.price;
+        this.estimated_price = this.d_estimated_price * this.start_price + this.start_price;
     }
 
     public void CalculatePrice_difference() {
-        this.price_difference = (this.price - this.estimated_price) / this.estimated_price;
-        if (this.price_difference >0) {
+        this.price_difference = (this.current_price - this.estimated_price) / this.estimated_price;
+        if (this.price_difference > 0) {
             this.price_difference = -5;
         }
         if (this.price_difference < 0) {
             this.price_difference = 5;
         }
+    }
+
+    public void setCurrentPrice(double current_price) {
+        this.current_price = current_price;
     }
 }
