@@ -6,6 +6,7 @@ package englishauction;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -33,23 +34,27 @@ public void create_first_changeable_parameters(Reader r,int j,int i) {
 public void calculate_estimated_price(Reader r,int k) {
             r.getArrayProduct().get(k).CalculateD_estimated_price();
             r.getArrayProduct().get(k).CalculateEstimated_price();
-            r.getArrayProduct().get(k).CalculatePrice_difference(); 
+            
         }
 
 public void calculate_emoticons(Reader r, int j, int i,EffectsAuction auc) {
-     r.getArrayPlayer().get(j).CalculateD_lack_of_confidence(r.getArrayProduct().get(i));
-        r.getArrayPlayer().get(j).CalculateLack_of_confidence();
+                r.getArrayPlayer().get(j).CalculateD_lack_of_confidence(r.getArrayProduct().get(i));
+                r.getArrayPlayer().get(j).CalculateLack_of_confidence();
                 r.getArrayPlayer().get(j).CalculateD_fear_of_poverty();
                 r.getArrayPlayer().get(j).CalculateFear_of_poverty();
                 r.getArrayPlayer().get(j).CalculateD_self_confidence(r.getArrayProduct().get(i), auc);
                 r.getArrayPlayer().get(j).CalculateSelf_confidence();
-                 r.getArrayPlayer().get(j).CalculateD_lack_of_confidence(r.getArrayProduct().get(i));
-                r.getArrayPlayer().get(j).CalculateLack_of_confidence();
                 r.getArrayPlayer().get(j).CalculateD_fear_of_loss(auc);
                 r.getArrayPlayer().get(j).CalculateFear_of_loss();
                 r.getArrayPlayer().get(j).CalculateD_passion(auc);
                 r.getArrayPlayer().get(j).CalculatePassion();
                 r.getArrayPlayer().get(j).CalculateActivity_in_game(r.getArrayProduct().get(i));
+                r.getArrayPlayer().get(j).CalculatePrice_acceptability(r.getArrayProduct().get(i));
+}
+
+public void calculate_max(ArrayList<Double> a,Product prod,double max) {
+    max = Collections.max(a);
+    prod.setCurrentPrice(max);       
 }
 
 //public void create_next_changeable_parameters(Reader r,int j,int i) {

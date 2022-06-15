@@ -132,7 +132,7 @@ public class Product {
     }
 
     public void CalculateD_estimated_price() {
-        this.d_estimated_price = this.rarety * 0.5 + this.state * 0.3 + this.antiquarity * 0.2;
+        this.d_estimated_price = (this.rarety * 0.5 + this.state * 0.3+ this.antiquarity * 0.2);
     }
 
     public void CalculateEstimated_price() {
@@ -140,13 +140,13 @@ public class Product {
     }
 
     public void CalculatePrice_difference() {
-        this.price_difference = (this.current_price - this.estimated_price) / this.estimated_price;
-        if (this.price_difference > 0) {
-            this.price_difference = -5;
+        this.price_difference = (((this.current_price - this.estimated_price) / this.estimated_price));
+        if (this.price_difference<0) {
+            this.price_difference=-1; }
+            else  {
+            this.price_difference=1;
         }
-        if (this.price_difference < 0) {
-            this.price_difference = 5;
-        }
+       
     }
 
     public void setCurrentPrice(double current_price) {
