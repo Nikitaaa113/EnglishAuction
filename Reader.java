@@ -28,7 +28,7 @@ public class Reader {
 
     public void Read() throws IOException {
         try {
-            XSSFWorkbook book = new XSSFWorkbook("C:\\Users\\sutdi\\Downloads\\Курсач.xlsx");
+            XSSFWorkbook book = new XSSFWorkbook("C:\\Users\\sutdi\\Downloads\\Information.xlsx");
             XSSFSheet player = book.getSheetAt(4);
             XSSFSheet product = book.getSheetAt(3);
             for (int i = 1; i <= player.getLastRowNum(); i++) {
@@ -43,7 +43,7 @@ public class Reader {
     }
 
     public void Necessity_calc() throws IOException {
-        XSSFWorkbook book = new XSSFWorkbook("C:\\Users\\sutdi\\Downloads\\Курсач.xlsx");
+        XSSFWorkbook book = new XSSFWorkbook("C:\\Users\\sutdi\\Downloads\\Information.xlsx");
         XSSFSheet necessity_for_player = book.getSheetAt(5);
         double[][] array = new double[50][34];
         for (int i = 0; i < array.length; i++) {
