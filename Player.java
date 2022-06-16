@@ -218,6 +218,7 @@ public class Player {
     }
 
     // Методы расчёта 
+    
     public void CalculateD_fear_of_poverty() {
         this.d_fear_of_poverty = (int) (-this.welfare * 0.4 - this.price_acceptability * 0.4 + this.avarice * 0.2);
         if (this.d_fear_of_poverty < -3) {

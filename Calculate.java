@@ -43,7 +43,7 @@ public class Calculate {
     }
 
     public void calculate_max(ArrayList<Double> a, Product prod, double max) {
-        max = Collections.max(a);
+       max = Collections.max(a);
         prod.setCurrentPrice(max);
     }
 }
