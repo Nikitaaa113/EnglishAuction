@@ -1,15 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package englishauction;
 
-import java.util.LinkedHashMap;
-
-/**
- *
- * @author sutdi
- */
 public class Player {
 
     //Постоянные параметры
@@ -21,7 +11,6 @@ public class Player {
     private int overconfidence; //Самоуверенность (0:10)
     private double necessity; //Необходимость в товаре (0:10)
     private int activity; // Активность игрока
-    private double price_increase; // Повышение цены
 
     //Изменчивые параметры
     private int fear_of_poverty; //Страх бедности 
@@ -31,6 +20,7 @@ public class Player {
     private int passion; //Азарт 
     private int fear_of_loss; //Страх потери
     private double activity_in_game; // Решение играть
+    private double price_increase; // Повышение цены
 
     // Приращения
     private int d_fear_of_poverty; // Приращение страха бедности (-1;1)
@@ -223,11 +213,14 @@ public class Player {
         this.price_increase = price_increase;
     }
 
-    // Методы расчёта
-    
+    public void setPrice_acceptability(double price_acceptability) {
+        this.price_acceptability = price_acceptability;
+    }
+
+    // Методы расчёта 
     public void CalculateD_fear_of_poverty() {
         this.d_fear_of_poverty = (int) (-this.welfare * 0.4 - this.price_acceptability * 0.4 + this.avarice * 0.2);
-        if (this.d_fear_of_poverty <-3) {
+        if (this.d_fear_of_poverty < -3) {
             this.d_fear_of_poverty = -1;
         } else {
             this.d_fear_of_poverty = 1;
@@ -237,13 +230,13 @@ public class Player {
 
     public void CalculateFear_of_poverty() {
         this.fear_of_poverty = this.fear_of_poverty + this.d_fear_of_poverty;
-        
+
     }
 
     public void CalculateD_lack_of_confidence(Product prod) {
         this.d_lack_of_confidence = (int) (-this.price_acceptability * 0.2 - prod.getAntiquarity() * 0.4 - this.type * 0.05 - prod.getRarety() * 0.35);
-         if (this.d_lack_of_confidence <-3) { //тут еще подумать мб -2
-        this.d_lack_of_confidence = -1;
+        if (this.d_lack_of_confidence < -3) { //тут еще подумать мб -2
+            this.d_lack_of_confidence = -1;
         } else {
             this.d_lack_of_confidence = 1;
         }
@@ -251,11 +244,10 @@ public class Player {
 
     public void CalculateLack_of_confidence() {
         this.lack_of_confidence = this.lack_of_confidence + this.d_lack_of_confidence;
-
     }
 
     public void CalculateD_self_confidence(Product prod, EffectsAuction auc) {
-        this.d_self_confidence = (int) (this.welfare * 0.35 + this.overconfidence * 0.3 + this.activity * 0.15 - auc.getGrowth() *0.2 - prod.getPrice_difference() * 0.1);
+        this.d_self_confidence = (int) (this.welfare * 0.35 + this.overconfidence * 0.3 + this.activity * 0.15 - auc.getGrowth() * 0.2 - prod.getPrice_difference() * 0.1);
         if (this.d_self_confidence < 3) {
             this.d_self_confidence = -1;
         } else {
@@ -269,7 +261,7 @@ public class Player {
 
     public void CalculateD_passion(EffectsAuction auc) {
         this.d_passion = (int) (this.risk * 0.6 - auc.getGrowth() * 0.2 + this.type * 0.1 + this.activity * 0.1);
-          if (this.d_passion < 1) {
+        if (this.d_passion < 1) {
             this.d_passion = -1;
         } else {
             this.d_passion = 1;
@@ -294,7 +286,7 @@ public class Player {
     }
 
     public void CalculateActivity_in_game(Product prod) {
-        this.activity_in_game = -this.fear_of_poverty - this.lack_of_confidence +this.self_confidence + this.passion + this.necessity + (prod.getPrice_difference()) - this.fear_of_loss;
+        this.activity_in_game = -this.fear_of_poverty - this.lack_of_confidence + this.self_confidence + this.passion + this.necessity + (prod.getPrice_difference()) - this.fear_of_loss;
     }
 
     public void CalculatePrice_acceptability(Product prod) {
@@ -303,9 +295,10 @@ public class Player {
     }
 
     public void CalculatePrice_increase_one(Product prod) {
-        this.price_increase = prod.getStartPrice() + prod.getStartPrice() * (this.passion * 0.3 - this.fear_of_loss * 0.3 + this.welfare * 0.2+this.price_acceptability*0.2)/10;
+        this.price_increase = prod.getStartPrice() + prod.getStartPrice() * (this.passion * 0.3 - this.fear_of_loss * 0.3 + this.welfare * 0.2 + this.price_acceptability * 0.2) / 10;
     }
-    public void CalculatePrice_increase_two(Product prod) {
-        this.price_increase = prod.getCurrentPrice() +prod.getCurrentPrice() * (this.passion * 0.3 - this.fear_of_loss * 0.3 + this.welfare * 0.2+this.price_acceptability*0.2)/10;
+
+    public void CalculatePrice_increase_next(Product prod) {
+        this.price_increase = prod.getCurrentPrice() + prod.getCurrentPrice() * (this.passion * 0.3 - this.fear_of_loss * 0.3 + this.welfare * 0.2 + this.price_acceptability * 0.2) / 10;
     }
 }

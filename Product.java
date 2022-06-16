@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package englishauction;
 
-/**
- *
- * @author sutdi
- */
 public class Product {
 
     //Постоянные параметры
@@ -26,7 +18,6 @@ public class Product {
     private double current_price;
 
     public Product() {
-
     }
 
     public Product(int lot, String name, int year, int start_price, int rarety, int antiquarity, int state) {
@@ -131,8 +122,9 @@ public class Product {
 
     }
 
+    // Методы расчёта
     public void CalculateD_estimated_price() {
-        this.d_estimated_price = (this.rarety * 0.5 + this.state * 0.3+ this.antiquarity * 0.2);
+        this.d_estimated_price = (this.rarety * 0.5 + this.state * 0.3 + this.antiquarity * 0.2);
     }
 
     public void CalculateEstimated_price() {
@@ -141,12 +133,12 @@ public class Product {
 
     public void CalculatePrice_difference() {
         this.price_difference = (((this.current_price - this.estimated_price) / this.estimated_price));
-        if (this.price_difference<0) {
-            this.price_difference=-1; }
-            else  {
-            this.price_difference=1;
+        if (this.price_difference < 0) {
+            this.price_difference = -1;
+        } else {
+            this.price_difference = 1;
         }
-       
+
     }
 
     public void setCurrentPrice(double current_price) {
